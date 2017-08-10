@@ -1,0 +1,66 @@
+
+<CreateTournamentScreen>:
+	
+	GridLayout:
+		rows:3
+		cols:1
+		
+		Label:
+			text: "Creating New Tournament (1/2)"
+			size_hint_y : 0.2
+
+		GridLayout:
+			size_hint_y : 0.6
+			rows: 6
+			padding: 10
+			spacing: 20
+			
+			Label:
+				text : "Number of Teams:"
+		
+			TextInput:
+				id: num_of_teams
+				size_hint_y : None
+				height: '32dp'
+
+			Label:
+				text : "Number of Rounds:"
+
+			TextInput:
+				id: num_of_days
+				hint_text : '5'
+				hint_text_color: [0,0,0,1]				
+				size_hint_y : None
+				height: '32dp'
+
+			Label:
+				text : "Name of tournament:"	
+			
+			TextInput:
+				id: tournament_name
+				hint_text : 'Sozopol_2017'
+				hint_text_color: [0,0,0,1]				
+				size_hint_y : None
+				height: '32dp'
+	
+		GridLayout:
+			size_hint_y : 0.2
+			cols: 2
+			padding: 10
+			spacing: 10
+			
+			Button:
+				background_color: [1,0,0,1]
+				text: "Back"
+				on_press: root.go_to_start()
+			
+			Button:
+				background_color: [0,0,1,1]
+				text: "Continue"
+				on_press: root.get_info(num_of_teams.text,num_of_days.text,tournament_name.text)
+
+
+
+
+
+
