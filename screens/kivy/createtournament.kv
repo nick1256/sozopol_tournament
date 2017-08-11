@@ -52,12 +52,12 @@
 			Button:
 				background_color: [1,0,0,1]
 				text: "Back"
-				on_press: root.go_to_start()
+				on_press: root.screen_manager.set("start")
 			
 			Button:
 				background_color: [0,0,1,1]
 				text: "Continue"
-				on_press: root.get_info(num_of_teams.text,num_of_days.text,tournament_name.text)
+				on_press: root.screen_manager.set("start")
 
 
 

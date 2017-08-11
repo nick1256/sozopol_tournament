@@ -1,12 +1,11 @@
 # screen imports
-from screens.python.startscreen import StartScreen
+from screens.python.start import StartScreen
 from screens.python.createtournament import CreateTournamentScreen
-
+from screens.python.screen_manager import MyScreenManager
 
 # kivy imports 
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.core.window import Window
 
 # load kivy files
@@ -16,33 +15,26 @@ Builder.load_file('./screens/kivy/createtournament.kv')
 
 ########## Screen Manager #########
 
-#dict of all screen
-screens = {}
+# init
+screen_manager = MyScreenManager()
 
-# add start screen to screens
-screens['start'] = StartScreen(name='start')
+# start screen
+start = StartScreen('start',screen_manager)
 
-# add black screen to screen
-screens['createtournament'] = CreateTournamentScreen(name="createtournament")
+# create tournament screen
+create_tournament = CreateTournamentScreen("createtournament",screen_manager)
 
-
-# create screen manager and all screens to it
-sm = ScreenManager()
-
-for screen_name in screens: 
-	sm.add_widget(screens[screen_name]) 
-	print(screen_name)
-
-# start with start screen
-go_to_window('start')
-
+# screen manager
+screen_manager.add(start)
+screen_manager.add(create_tournament)
+screen_manager.set('start')
 
 
 ######### Sozopol App ##########
 
 class SozopolApp(App):
 	def build(self):
-		return sm
+		return screen_manager
 
 
 

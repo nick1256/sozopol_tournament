@@ -4,14 +4,13 @@ from kivy.uix.screenmanager import Screen
 
 class CreateTournamentScreen(Screen):
 	
-	def __init__(self,name):
+	def __init__(self,name,screen_manager):
 		
 		super(CreateTournamentScreen,self).__init__()
 		self.name = name
 		self.window_size = (300,400)
+		self.screen_manager = screen_manager
 
-	def go_to_start(self):
-		go_to_window('start')
 
 	def get_info(self,teams,days,name):
 		
