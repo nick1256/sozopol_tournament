@@ -11,8 +11,7 @@ def setup_tables(cursor):
     	"""create table teams 
 		   (
       	       hidden_name  varchar(100) unique,
-			   visible_name varchar(100) not null unique key,
-			   category     varchar(100) not null
+			   visible_name varchar(100) not null unique key
 		   );"""
 	)
 	

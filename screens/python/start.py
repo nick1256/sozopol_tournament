@@ -1,5 +1,5 @@
 from kivy.uix.screenmanager import Screen
-from screens.python.utilities import go_to_window
+from screens.python.create_tournament import CreateTournamentScreen
 
 ########## Start Screen ##########
 
@@ -12,3 +12,6 @@ class StartScreen(Screen):
 		self.window_size = (300,300)	
 		self.screen_manager = screen_manager
 
+	def go_to_create_tournament(self):
+		
+		self.screen_manager.add_set(CreateTournamentScreen('create_tournament',self.screen_manager))

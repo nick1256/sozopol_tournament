@@ -1,3 +1,4 @@
+#:import datetime datetime.datetime
 
 <CreateTournamentScreen>:
 	
@@ -19,15 +20,16 @@
 				text : "Number of Teams:"
 		
 			TextInput:
-				id: num_of_teams
+				id: nteams
 				size_hint_y : None
+				hint_text : '10'
 				height: '32dp'
 
 			Label:
 				text : "Number of Rounds:"
 
 			TextInput:
-				id: num_of_days
+				id: nrounds
 				hint_text : '5'
 				hint_text_color: [0,0,0,1]				
 				size_hint_y : None
@@ -37,8 +39,8 @@
 				text : "Name of tournament:"	
 			
 			TextInput:
-				id: tournament_name
-				hint_text : 'Sozopol_2017'
+				id: tname
+				hint_text : 'Sozopol_'+str(datetime.now().year)
 				hint_text_color: [0,0,0,1]				
 				size_hint_y : None
 				height: '32dp'
@@ -52,12 +54,11 @@
 			Button:
 				background_color: [1,0,0,1]
 				text: "Back"
-				on_press: root.screen_manager.set("start")
-			
+				on_press: root.screen_manager.set("start")	
 			Button:
 				background_color: [0,0,1,1]
 				text: "Continue"
-				on_press: root.screen_manager.set("start")
+				on_press: root.get_info(nteams.text,nrounds.text,tname.text)
 
 
 

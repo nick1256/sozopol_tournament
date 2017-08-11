@@ -1,17 +1,13 @@
 # used to insert data in the database
 
 # insert teams
-def insert_teams(cursor,teams):
+def insert_teams(cursor,team_names):
 	
-	for team in teams:
+	for team_name in team_names:
 	
-		# get information
-		hn = team;
-		vn = teams[team]['visible_name']
-		ct = teams[team]['category']
-		
 		# query
-		query = "insert into teams values (\"{}\",\"{}\",\"{}\");".format(hn,vn,ct)
+		query = "insert into teams values (\"{}\",NULL);".format(team_name)
 	
+		print(query)
 		# add to table
 		cursor.execute(query)
