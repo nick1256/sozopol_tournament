@@ -1,3 +1,12 @@
+#######################################################################
+# Written by: Nickolay Stoyanov										  #
+# E-mail: nickolay.stoyanov.95@gmail.com							  #
+# Last updated: 11/08/2017											  #
+# Github repository: https://github.com/nick1256/sozopol_tournament   #
+# Compatible with : Python 3										  #
+#######################################################################
+
+# general imports
 import os
 
 # kivy imports 
