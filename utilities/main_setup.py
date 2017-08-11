@@ -3,7 +3,7 @@ from utilities.create_database import *
 from utilities.tables_schema import *
 from utilities.inserters import *
 
-def setup_database(db_name,team_names):
+def setup_database(db_name,team_names1,team_names2,team_names3):
 		
 	# configuration for connector
 	config = {
@@ -28,7 +28,7 @@ def setup_database(db_name,team_names):
 	tables = setup_tables(cursor)
 	
 	# insert teams data
-	insert_teams(cursor,team_names)	
+	insert_teams(cursor,team_names1,team_names2,team_names3)	
 
 	# commit the data
 	cnx.commit()

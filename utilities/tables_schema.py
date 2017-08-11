@@ -1,26 +1,23 @@
 # setup tables schema
 def setup_tables(cursor):
 	
-	# all tables
+	# all tables and triggers
 	tables = {}
-	
+	triggers = {}
+
 	### configure schemas ###
 
-	# teams table
-	tables['teams'] = (
-    	"""create table teams 
-		   (
-      	       hidden_name  varchar(100) unique,
-			   visible_name varchar(100) not null unique key
-		   );"""
-	)
-	
-	# trigger to set visible_name to hidden_name if visible_name = NULL
-	trigger = """ create trigger foo before insert on teams for each row
-    			      if new.visible_name is null then
-        			      set new.visible_name := new.hidden_name;
-    				  end if;;
-			  """
+	# teams tables
+
+	for category in ["Teams_6-7","Teams_8-9","Teams_10-12"]:
+
+		tables[category] = (
+			"""create table {} 
+			   (
+		  	       hidden_name  varchar(100) unique,
+				   visible_name varchar(100) not null unique key
+			   );""".format(category)
+		)
 	
 	# jury table
 	tables['jury'] = (
@@ -64,6 +61,5 @@ def setup_tables(cursor):
 	### create all tables ###	
 	for table in tables:
 		cursor.execute(tables[table])
-	cursor.execute(trigger)	
-
+	
 	return tables

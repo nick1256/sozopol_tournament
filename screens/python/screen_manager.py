@@ -35,6 +35,10 @@ class MyScreenManager(ScreenManager):
 		# adjust screen size		
 		Window.size = screen.window_size
 
+	def get_curr_screen(self):
+		
+		return self.screens_dict[self.current]
+
 
 	# add and navigate to a screen
 	def add_set(self,screen):

@@ -7,23 +7,43 @@
 		cols:1
 		
 		Label:
-			text: "Creating New Tournament (1/2)"
+			text: "Creating New Tournament (Step 1/4)"
 			size_hint_y : 0.2
 
 		GridLayout:
 			size_hint_y : 0.6
-			rows: 6
+			rows: 5
+			cols: 2
 			padding: 10
 			spacing: 20
 			
 			Label:
-				text : "Number of Teams:"
+				text : "Number of Teams(6-7):"
 		
 			TextInput:
-				id: nteams
+				id: nteams1
 				size_hint_y : None
-				hint_text : '10'
+				hint_text : '18'
 				height: '32dp'
+
+			Label:
+				text : "Number of Teams(8-9):"
+		
+			TextInput:
+				id: nteams2
+				size_hint_y : None
+				hint_text : '14'
+				height: '32dp'
+
+			Label:
+				text : "Number of Teams(10-12):"
+		
+			TextInput:
+				id: nteams3
+				size_hint_y : None
+				hint_text : '8'
+				height: '32dp'
+	
 
 			Label:
 				text : "Number of Rounds:"
@@ -58,7 +78,7 @@
 			Button:
 				background_color: [0,0,1,1]
 				text: "Continue"
-				on_press: root.get_info(nteams.text,nrounds.text,tname.text)
+				on_press: root.get_info(nteams1.text,nteams2.text,nteams3.text,nrounds.text,tname.text)
 
 
 

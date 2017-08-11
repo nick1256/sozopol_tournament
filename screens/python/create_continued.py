@@ -13,8 +13,6 @@ import mysql.connector as mysqlc
 from mysql.connector import errorcode
 from utilities.main_setup import setup_database
 
-
-
 ########## Create Continued Screen ########## 
 
 class CreateContinuedScreen(Screen):
@@ -28,6 +26,8 @@ class CreateContinuedScreen(Screen):
 		self.nteams = nteams
 		self.nrounds = nrounds
 		self.tname = tname
+		self.tnames1 = None
+		self.tnames2 = None
 		
 		# adjust screen to fit (8<=nteams<=16)		
 		self.window_size = (800,200+50*nteams)
@@ -40,12 +40,27 @@ class CreateContinuedScreen(Screen):
 		self.text_inputs = text_inputs
 
 	def create_database(self):
-		
-		# get team names
-		team_names = [text_input.text for text_input in self.text_inputs]
-		
-		# setup database with team names
-		setup_database(self.tname,team_names)
+
+		# see where to go next according to which screen we are in
+		if self.name=="create_continued_6-7":
+			self.screen_manager.set("create_continued_8-9")
+			next_screen = self.screen_manager.get_curr_screen()			
+			tnames1 = [text_input.text for text_input in self.text_inputs]
+			next_screen.tnames1 = tnames1
+
+		elif self.name=="create_continued_8-9":
+			self.screen_manager.set("create_continued_10-12")
+			next_screen = self.screen_manager.get_curr_screen()
+			tnames2 = [text_input.text for text_input in self.text_inputs]
+			next_screen.tnames1 = self.tnames1
+			next_screen.tnames2 = tnames2
+
+		else:
+			self.screen_manager.set("start")
+			tnames3 = [text_input.text for text_input in self.text_inputs]
+			
+			# create database
+			setup_database(self.tname,self.tnames1,self.tnames2,tnames3)
 
 
 ### need to define Layout here because kivy doesn't have a for loop for nteams
@@ -58,8 +73,18 @@ class CustomLayout(GridLayout):
 		self.rows = 3
 		self.cols = 1
 
-		# upper label
-		label = Label(text="Creating New Tournament (2/2)",size_hint_y=0.1)
+	
+		# upper label according to which screen we are on
+		if screen.name=="create_continued_6-7":
+			label_text = "Insert Team Names for Group 6-7 (Step 2/4)"
+
+		elif screen.name=="create_continued_8-9":
+			label_text = "Insert Team Names, Group 8-9 (Step 3/4)"
+
+		else:
+			label_text = "Insert Team Names, Group 10-12 (Steo 4/4)"
+
+		label = Label(text=label_text,size_hint_y=0.1)
 
 		# table in the middle
 		table = TableWidget(screen,size_hint_y=0.8)
@@ -120,8 +145,19 @@ class PairButtonWidget(GridLayout):
 		self.padding = 10
 		self.spacing = 10
 
+	
+		# back screen name according to which screen we are on
+		if screen.name=="create_continued_6-7":
+			back_screen_name = "create_tournament"
+
+		elif screen.name=="create_continued_8-9":
+			back_screen_name = "create_continued_6-7"
+
+		else:
+			back_screen_name = "create_continued_8-9"
+
 		# create the two buttons
-		b1 = Button(text="Back",background_color = [1,0,0,1], on_press = (lambda x: screen.screen_manager.set("create_tournament")))
+		b1 = Button(text="Back",background_color = [1,0,0,1], on_press = (lambda x: screen.screen_manager.set(back_screen_name)))
 		b2 = Button(text="Create",background_color=[0,0,1,1], on_press = (lambda x: screen.create_database()))		
 
 		# build the widget	
