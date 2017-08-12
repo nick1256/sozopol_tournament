@@ -18,30 +18,33 @@
 			spacing: 20
 			
 			Label:
-				text : "Number of Teams(6-7):"
+				text : "Number of Teams (6-7):"
 		
 			TextInput:
 				id: nteams1
+				text: "17"
+				write_tab: False
 				size_hint_y : None
-				hint_text : '18'
 				height: '32dp'
 
 			Label:
-				text : "Number of Teams(8-9):"
+				text : "Number of Teams (8-9):"
 		
 			TextInput:
 				id: nteams2
+				text: "16"
+				write_tab: False
 				size_hint_y : None
-				hint_text : '14'
 				height: '32dp'
 
 			Label:
-				text : "Number of Teams(10-12):"
+				text : "Number of Teams (10-12):"
 		
 			TextInput:
 				id: nteams3
+				text: "8"
+				write_tab: False
 				size_hint_y : None
-				hint_text : '8'
 				height: '32dp'
 	
 
@@ -50,8 +53,8 @@
 
 			TextInput:
 				id: nrounds
-				hint_text : '5'
-				hint_text_color: [0,0,0,1]				
+				text : '5'
+				write_tab: False
 				size_hint_y : None
 				height: '32dp'
 
@@ -60,7 +63,8 @@
 			
 			TextInput:
 				id: tname
-				hint_text : 'Sozopol_'+str(datetime.now().year)
+				write_tab: False
+				text : 'Sozopol_'+str(datetime.now().year)
 				hint_text_color: [0,0,0,1]				
 				size_hint_y : None
 				height: '32dp'

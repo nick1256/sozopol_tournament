@@ -1,19 +1,21 @@
 # used to insert data in the database
-
+import mysql.connector as mysqlc
 # insert teams
-def insert_teams(cursor,team_names1,team_names2,team_names3):
+def insert_teams(cursor,team_names,team_category):
 	
-	for team_name in team_names1:
-		query = "insert into Teams_{} values (\"{}\",NULL);".format(team_name)
-		# add to table
+	for team_name in team_names:
+		
+		# create and execute query
+		query = "insert into Teams_{} values (\"{}\",\"{}\");".format(team_category,team_name,team_name)
 		cursor.execute(query)
 
-	for team_name in team_names2:
-		query = "insert into Teams_{} values (\"{}\",NULL);".format(team_name)
-		# add to table
+
+# insert database variables
+def insert_variables(cursor,variables):
+	
+	for variable in variables:
+		
+		#create and execute query
+		query = "insert into Variables values (\"{}\",\"{}\")".format(variable,variables[variable])
 		cursor.execute(query)
 
-	for team_name in team_names3:
-		query = "insert into Teams_{} values (\"{}\",NULL);".format(team_name)
-		# add to table
-		cursor.execute(query)

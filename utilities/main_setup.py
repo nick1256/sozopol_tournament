@@ -1,37 +1,23 @@
-import mysql.connector as mysqlc
 from utilities.create_database import *
 from utilities.tables_schema import *
 from utilities.inserters import *
+from utilities.create_connection import *
 
-def setup_database(db_name,team_names1,team_names2,team_names3):
-		
-	# configuration for connector
-	config = {
-		'user' : 'nick',
-		'host' : 'localhost',
-	}
-
-	# create connector
-	cnx = mysqlc.connect(**config)
+def setup_database(db_name,*args):
+	
+	# create conection
+	cnx = create_connection()
 
 	# get cursor 
 	cursor = cnx.cursor()
 
-	# create database
+	# create database and navigate to it
 	create_database(cursor,db_name)
 	cnx.database = db_name
 
-	# navigate to database
-	cursor.execute("use {};".format(db_name))
 	
 	# create tables
 	tables = setup_tables(cursor)
-	
-	# insert teams data
-	insert_teams(cursor,team_names1,team_names2,team_names3)	
 
-	# commit the data
-	cnx.commit()
-
-
-
+	# close connection
+	cnx.close()

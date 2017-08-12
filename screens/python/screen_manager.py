@@ -34,13 +34,18 @@ class MyScreenManager(ScreenManager):
 		
 		# adjust screen size		
 		Window.size = screen.window_size
-
-	def get_curr_screen(self):
+	
+	# get screen according to a name
+	def get_my_screen(self,screen_name):
 		
-		return self.screens_dict[self.current]
+		return self.screens_dict[screen_name]
 
 
 	# add and navigate to a screen
 	def add_set(self,screen):
 		self.add(screen)
 		self.set(screen.name)
+
+	# set the name of the database we are using
+	def set_database_name(self,name):
+		self.database_name = name

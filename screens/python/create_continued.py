@@ -11,57 +11,80 @@ from kivy.lang import Builder
 # mysql imports
 import mysql.connector as mysqlc
 from mysql.connector import errorcode
-from utilities.main_setup import setup_database
 
-########## Create Continued Screen ########## 
+######### Abstract Create Continued Screen ########## 
 
 class CreateContinuedScreen(Screen):
 
 	
-	def __init__(self,name,screen_manager,nteams,nrounds,tname):
+	def __init__(self,name,screen_manager,nteams):
 		
 		super(CreateContinuedScreen,self).__init__()
 		self.name = name
 		self.screen_manager = screen_manager		
 		self.nteams = nteams
-		self.nrounds = nrounds
-		self.tname = tname
-		self.tnames1 = None
-		self.tnames2 = None
 		
 		# adjust screen to fit (8<=nteams<=16)		
 		self.window_size = (800,200+50*nteams)
-		
-		# layout
+
+		# add layout
 		self.add_widget(CustomLayout(self))
 
-
+	# set text inputs
 	def set_text_inputs(self,text_inputs):
 		self.text_inputs = text_inputs
 
-	def create_database(self):
+	# go to previous screen
+	def go_back(self):
+		self.screen_manager.set(self.back_screen_name)
 
-		# see where to go next according to which screen we are in
-		if self.name=="create_continued_6-7":
-			self.screen_manager.set("create_continued_8-9")
-			next_screen = self.screen_manager.get_curr_screen()			
-			tnames1 = [text_input.text for text_input in self.text_inputs]
-			next_screen.tnames1 = tnames1
+	# get names and go to next screen
+	def go_next(self):
+		self.team_names = [text_input.text for text_input in self.text_inputs]
+		self.screen_manager.set(self.next_screen_name)
 
-		elif self.name=="create_continued_8-9":
-			self.screen_manager.set("create_continued_10-12")
-			next_screen = self.screen_manager.get_curr_screen()
-			tnames2 = [text_input.text for text_input in self.text_inputs]
-			next_screen.tnames1 = self.tnames1
-			next_screen.tnames2 = tnames2
 
-		else:
-			self.screen_manager.set("start")
-			tnames3 = [text_input.text for text_input in self.text_inputs]
-			
-			# create database
-			setup_database(self.tname,self.tnames1,self.tnames2,tnames3)
+######### Concrete Classes ##########
 
+class CreateContinuedScreenSmall(CreateContinuedScreen):
+	
+	def __init__(self,name,screen_manager,nteams):
+		
+		self.label_text = "Insert Team Names for Group 6-7 (Step 2/4)"
+		self.back_screen_name = "create_tournament"
+		self.next_screen_name = "create_continued_medium"
+
+		super(CreateContinuedScreenSmall,self).__init__(name,screen_manager,nteams)		
+
+
+class CreateContinuedScreenMedium(CreateContinuedScreen):
+	
+	def __init__(self,name,screen_manager,nteams):
+		
+		self.label_text = "Insert Team Names for Group 8-9 (Step 3/4)"
+		self.back_screen_name = "create_continued_small"
+		self.next_screen_name = "create_continued_big"
+
+		super(CreateContinuedScreenMedium,self).__init__(name,screen_manager,nteams)
+		
+
+class CreateContinuedScreenBig(CreateContinuedScreen):
+	
+	def __init__(self,name,screen_manager,nteams):
+		
+		self.label_text = "Insert Team Names for Group 10-12 (Step 4/4)"
+		self.back_screen_name = "create_continued_medium"
+		self.next_screen_name = "start"
+
+		super(CreateContinuedScreenBig,self).__init__(name,screen_manager,nteams)
+
+	# override going to next screen to invoke creating database	
+	def go_next(self):
+		super(CreateContinuedScreenBig,self).go_next()
+		
+		# get create_tournament screen and call it's create_database method
+		target_screen = self.screen_manager.get_my_screen("create_tournament")		
+		target_screen.create_database()
 
 ### need to define Layout here because kivy doesn't have a for loop for nteams
 class CustomLayout(GridLayout):
@@ -73,18 +96,8 @@ class CustomLayout(GridLayout):
 		self.rows = 3
 		self.cols = 1
 
-	
-		# upper label according to which screen we are on
-		if screen.name=="create_continued_6-7":
-			label_text = "Insert Team Names for Group 6-7 (Step 2/4)"
 
-		elif screen.name=="create_continued_8-9":
-			label_text = "Insert Team Names, Group 8-9 (Step 3/4)"
-
-		else:
-			label_text = "Insert Team Names, Group 10-12 (Steo 4/4)"
-
-		label = Label(text=label_text,size_hint_y=0.1)
+		label = Label(text=screen.label_text,size_hint_y=0.1)
 
 		# table in the middle
 		table = TableWidget(screen,size_hint_y=0.8)
@@ -111,7 +124,6 @@ class TableWidget(GridLayout):
 		self.padding= [50,10,100,10]
 		self.spacing = 10
 
-
 		# list to hold the text of the text inputs
 		text_inputs = []
 
@@ -119,7 +131,7 @@ class TableWidget(GridLayout):
 		for row in range(self.rows):
 		
 			label = Label(text = "Team {} Name:".format(row+1),size_hint_x=0.3)
-			text_input = TextInput(size_hint_x = 0.7,size_hint_y=None,height='32dp',font_size='12sp',write_tab=False)
+			text_input = TextInput(size_hint_x = 0.7,size_hint_y=None,height='32dp',font_size='11sp',write_tab=False,text="Team {}".format(row+1))
 	
 			# record text_input
 			text_inputs.append(text_input)			
@@ -139,29 +151,18 @@ class PairButtonWidget(GridLayout):
 	def __init__(self,screen,**kwargs):
 
 		super(PairButtonWidget,self).__init__(**kwargs)
-
+		self.screen = screen
+	
 		self.rows = 1
 		self.cols = 2
 		self.padding = 10
 		self.spacing = 10
 
-	
-		# back screen name according to which screen we are on
-		if screen.name=="create_continued_6-7":
-			back_screen_name = "create_tournament"
-
-		elif screen.name=="create_continued_8-9":
-			back_screen_name = "create_continued_6-7"
-
-		else:
-			back_screen_name = "create_continued_8-9"
-
 		# create the two buttons
-		b1 = Button(text="Back",background_color = [1,0,0,1], on_press = (lambda x: screen.screen_manager.set(back_screen_name)))
-		b2 = Button(text="Create",background_color=[0,0,1,1], on_press = (lambda x: screen.create_database()))		
+		b1 = Button(text="Back",background_color = [1,0,0,1], on_press = (lambda x: screen.go_back()))
+		b2 = Button(text="Create",background_color=[0,0,1,1], on_press = (lambda x: screen.go_next()))		
 
 		# build the widget	
 		self.add_widget(b1)
 		self.add_widget(b2)	
-
 

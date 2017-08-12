@@ -1,27 +1,51 @@
 # setup tables schema
 def setup_tables(cursor):
 	
-	# all tables and triggers
+	# all tables
 	tables = {}
-	triggers = {}
 
 	### configure schemas ###
 
+	# variables table
+	tables["Variables"] = (
+		"""create table Variables
+		   (
+               name  varchar(100) not null unique,
+			   value varchar(100) not null
+		   );"""
+	)
+	
+
 	# teams tables
+	tables["Teams_Small"] = (
+		"""create table Teams_Medium
+		   (
+	  	       hidden_name  varchar(100) not null unique,
+			   visible_name varchar(100) not null unique key
+		   );"""
+	)
 
-	for category in ["Teams_6-7","Teams_8-9","Teams_10-12"]:
+	tables["Teams_Medium"] = (
+		"""create table Teams_Big
+		   (
+	  	       hidden_name  varchar(100) not null unique,
+			   visible_name varchar(100) not null unique key
+		   );"""
+	)
 
-		tables[category] = (
-			"""create table {} 
-			   (
-		  	       hidden_name  varchar(100) unique,
-				   visible_name varchar(100) not null unique key
-			   );""".format(category)
-		)
+	tables["Teams_Big"] = (
+		"""create table Teams_Small 
+		   (
+	  	       hidden_name  varchar(100) not null unique,
+			   visible_name varchar(100) not null unique key
+		   );"""
+	)
+
+
 	
 	# jury table
-	tables['jury'] = (
-		"""create table jury
+	tables['Jury'] = (
+		"""create table Jury
 		   (
 		       f_name varchar(100) not null,
                l_name varchar(100) not null,
@@ -30,9 +54,11 @@ def setup_tables(cursor):
         """
 	)
 
+
+
 	# problems table
-	tables['problems'] = (
-		"""create table problems
+	tables['Problems'] = (
+		"""create table Problems
            (
 		       class    varchar(100) not null,
 	 		   day      tinyint      not null,
@@ -42,9 +68,11 @@ def setup_tables(cursor):
 		"""
 	)
 
+
+
     # scores table
-	tables['scores'] = (
-		"""create table scores
+	tables['Scores'] = (
+		"""create table Scores
 		   (
                team  varchar(100) not null unique,
                day1  tinyint      not null,
@@ -56,6 +84,7 @@ def setup_tables(cursor):
            )
 		"""
 	)
+
 
 
 	### create all tables ###	
