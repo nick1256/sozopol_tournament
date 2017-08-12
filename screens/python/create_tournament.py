@@ -91,9 +91,10 @@ class CreateTournamentScreen(Screen):
 		# delete if already exists
 		if os.path.isdir(directory_path): rmtree(directory_path)
 		
-		# create
+		# create directory and add init file in it
 		os.mkdir(directory_path)
-
+		f = open(directory_path+"/__init__.py",'w')
+		f.write("# Do not delete")
 
 
 
