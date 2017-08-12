@@ -8,8 +8,10 @@ from utilities.create_connection import create_connection
 from screens.python.create_continued import *
 
 # other imports
+import os
 import mysql.connector as mysqlc
 from datetime import datetime
+from shutil import rmtree
 
 ########## Create Tournament Screen ########## 
 
@@ -55,7 +57,6 @@ class CreateTournamentScreen(Screen):
 		# get cursor
 		cursor = cnx.cursor()
 
-
 		# create variables dict and insert it into database
 		variables = {
 			"tournament_name" : self.tname,
@@ -82,4 +83,18 @@ class CreateTournamentScreen(Screen):
 		cnx.commit()
 		cnx.close()
 	
+		### make dir for this tournament
+		
+		# directory name
+		directory_path = os.getcwd()+"/tournaments/"+self.tname
+		
+		# delete if already exists
+		if os.path.isdir(directory_path): rmtree(directory_path)
+		
+		# create
+		os.mkdir(directory_path)
+
+
+
+
 

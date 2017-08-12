@@ -1,5 +1,10 @@
+# kivy imports
 from kivy.uix.screenmanager import Screen
+
+# file imports
 from screens.python.create_tournament import CreateTournamentScreen
+from screens.python.load import LoadScreen
+from screens.python.successful import SuccessfulLoadScreen
 
 ########## Start Screen ##########
 
@@ -15,3 +20,7 @@ class StartScreen(Screen):
 	def go_to_create_tournament(self):
 		
 		self.screen_manager.add_set(CreateTournamentScreen('create_tournament',self.screen_manager))
+
+	def load_tournament(self):
+
+		self.screen_manager.add_set(LoadScreen('load',self.screen_manager))

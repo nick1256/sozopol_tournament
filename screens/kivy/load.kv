@@ -1,0 +1,7 @@
+#: import os os 
+
+<LoadScreen>:
+	FileChooserListView:
+		id: filechooser
+		path: os.getcwd()+'/tournaments'
+		select: root.load_tournament(filechooser.path)

@@ -1,8 +1,8 @@
 <StartScreen>:
 
     BoxLayout:
-		spacing: 10
-		padding: 10
+		spacing: 30
+		padding: 30
 		orientation : "vertical"
 		Button:
 			on_press: root.go_to_create_tournament()
@@ -11,4 +11,5 @@
 		Button:
 			background_color: [0,0,1,1]
 			text: "Load Tournament"
+			on_press: root.load_tournament()
 

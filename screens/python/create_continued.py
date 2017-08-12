@@ -7,6 +7,8 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 
+# file imports
+from screens.python.successful import SuccessfulCreateScreen
 
 # mysql imports
 import mysql.connector as mysqlc
@@ -74,18 +76,23 @@ class CreateContinuedScreenBig(CreateContinuedScreen):
 		
 		self.label_text = "Insert Team Names for Group 10-12 (Step 4/4)"
 		self.back_screen_name = "create_continued_medium"
-		self.next_screen_name = "start"
+		self.next_screen_name = "successful"
 
 		super(CreateContinuedScreenBig,self).__init__(name,screen_manager,nteams)
 
 	# override going to next screen to invoke creating database	
 	def go_next(self):
-		super(CreateContinuedScreenBig,self).go_next()
+
+		# get inputs
+		self.team_names = [text_input.text for text_input in self.text_inputs]
 		
 		# get create_tournament screen and call it's create_database method
 		target_screen = self.screen_manager.get_my_screen("create_tournament")		
 		target_screen.create_database()
 
+		#create next screen and go to it
+		self.screen_manager.add_set(SuccessfulCreateScreen("successful",self.screen_manager))
+		
 ### need to define Layout here because kivy doesn't have a for loop for nteams
 class CustomLayout(GridLayout):
 	

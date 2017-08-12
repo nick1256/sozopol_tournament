@@ -1,0 +1,36 @@
+<SuccessfulScreen>:
+	GridLayout:
+		rows:3
+		cols:1	
+		padding : 20
+
+		Label:
+			font_size : "20sp"
+			size_hint_y : 0.1
+			text: root.upper_label_text
+	
+
+		Label:
+			size_hint_y : 0.7
+			text: root.information_string
+			strip: True
+		
+
+		GridLayout:
+			size_hint_y : 0.2
+			rows: 1			
+			cols: 2
+			padding: 10
+			spacing: 10
+		
+			Button:
+				background_color: [1,0,0,1]
+				size_hint_x: 0.5
+				text: "Back"
+				on_press: root.screen_manager.set(root.back_screen_name)
+			
+			Button
+				background_color: [0,0,1,1]
+				size_hint_x: 0.5
+				text: "Continue"
+				on_press: root.screen_manager.set("start")
