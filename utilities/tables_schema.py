@@ -5,7 +5,7 @@ def setup_tables(cursor):
 	tables = {}
 
 	### configure schemas ###
-
+	
 	# variables table
 	tables["Variables"] = (
 		"""create table Variables
@@ -15,33 +15,6 @@ def setup_tables(cursor):
 		   );"""
 	)
 	
-
-	# teams tables
-	tables["Teams_Small"] = (
-		"""create table Teams_Medium
-		   (
-	  	       hidden_name  varchar(100) not null unique,
-			   visible_name varchar(100) not null unique key
-		   );"""
-	)
-
-	tables["Teams_Medium"] = (
-		"""create table Teams_Big
-		   (
-	  	       hidden_name  varchar(100) not null unique,
-			   visible_name varchar(100) not null unique key
-		   );"""
-	)
-
-	tables["Teams_Big"] = (
-		"""create table Teams_Small 
-		   (
-	  	       hidden_name  varchar(100) not null unique,
-			   visible_name varchar(100) not null unique key
-		   );"""
-	)
-
-
 	
 	# jury table
 	tables['Jury'] = (
@@ -54,36 +27,49 @@ def setup_tables(cursor):
         """
 	)
 
+	# loop through categories
+	for category in ["Small","Medium","Big"]:
+
+		# teams tables
+		tables["Teams_{}".format(category)] = (
+			"""create table Teams_{}
+			   (
+		  	       hidden_name  varchar(100) not null unique,
+				   visible_name varchar(100) not null unique key,
+				   rank_scores  smallint     not null default 0,
+				   points       smallint     not null default 0
+			   )""".format(category)
+		)
 
 
-	# problems table
-	tables['Problems'] = (
-		"""create table Problems
-           (
-		       class    varchar(100) not null,
-	 		   day      tinyint      not null,
-               category varchar(100) not null,
-               authors  varchar(100)
-		   )
-		"""
-	)
+		# problems table
+		tables['Problems_{}'.format(category)] = (
+			"""create table Problems_{}
+		       (
+				   class    varchar(100) not null,
+		 		   day      tinyint      not null,
+		           category varchar(100) not null,
+		           authors  varchar(100)
+			   )
+			""".format(category)
+		)
 
 
 
-    # scores table
-	tables['Scores'] = (
-		"""create table Scores
-		   (
-               team  varchar(100) not null unique,
-               day1  tinyint      not null,
-               day2  tinyint      not null,
-               day3  tinyint      not null,
-               day4  tinyint      not null,
-               day5  tinyint      not null,
-               total smallint     not null
-           )
-		"""
-	)
+		# scores table
+		tables['Scores_{}'.format(category)] = (
+			"""create table Scores_{}
+			   (
+		           team  varchar(100) not null unique,
+		           day1  tinyint      default null,
+		           day2  tinyint      default null,
+		           day3  tinyint      default null,
+		           day4  tinyint      default null,
+		           day5  tinyint      default null,
+		           total smallint     default null
+		       )
+			""".format(category)
+		)
 
 
 

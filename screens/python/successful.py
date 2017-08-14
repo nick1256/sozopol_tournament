@@ -7,6 +7,7 @@ from mysql.connector import errorcode
 
 # file imports
 from utilities.create_connection import create_connection
+from screens.python.main_view import MainViewScreen
 
 # Abstract Successful Class
 class SuccessfulScreen(Screen):
@@ -47,10 +48,13 @@ class SuccessfulScreen(Screen):
 				    				 Number of Teams (8-9): {} \n
 				    			 	 Number of Teams (10-12): {} """.format(tname,nrounds,nsmall,nmedium,nbig)
 			
-			
+		# close connection
+		cnx.close()
 
 		super(SuccessfulScreen,self).__init__()
 
+	def go_next(self):		
+		self.screen_manager.add_set(MainViewScreen("main_view",self.screen_manager))
 
 # Concrete Classes
 class SuccessfulCreateScreen(SuccessfulScreen):
