@@ -14,7 +14,7 @@ class MainViewScreen(Screen):
 		
 		self.name = name
 		self.screen_manager = screen_manager
-		self.window_size = (1800,1000)
+		self.window_size = (1900,1000)
 		
 		super(MainViewScreen,self).__init__()
 
@@ -28,7 +28,7 @@ class MainViewLayout(TabbedPanel):
 		super(MainViewLayout,self).__init__(**kwargs)
 
 		# set background to black
-		# self.background_color = [0,0,0,0]
+		self.background_color = [0,0,0,0]
 
 		# create the three tabs for the different categories
 		self.add_widget(CategoryTab(screen,"Small",text="6-7"))

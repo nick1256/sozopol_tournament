@@ -6,6 +6,11 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.switch import Switch
 
+# default row_height
+ROW_HEIGHT = 40
+
+
+# tab name with contents
 class JuryTab(TabbedPanelItem):
 
 	def __init__(self,screen,**kwargs):
@@ -13,6 +18,8 @@ class JuryTab(TabbedPanelItem):
 		super(JuryTab,self).__init__(**kwargs)
 		self.add_widget(JuryContents())
 
+
+# contents
 class JuryContents(GridLayout):
 		
 	def __init__(self,**kwargs):
@@ -32,6 +39,7 @@ class JuryContents(GridLayout):
 		self.add_widget(self.middle)
 		self.add_widget(self.right_side)
 
+
 	def add_jury(self):
 
 		if self.middle.count < 20:		
@@ -39,6 +47,7 @@ class JuryContents(GridLayout):
 		else:
 			self.right_side.add()
 
+# buttons (left side)
 class JuryButtons(GridLayout):
 	
 	def __init__(self,parent,**kwargs):
@@ -51,18 +60,19 @@ class JuryButtons(GridLayout):
 		self.padding = [10,100]
 		self.spacing = 10
 
-		self.add_widget(Button(text="Add Jury",size_hint_y=None,height=40,on_press=(lambda x: parent.add_jury())))
-		self.add_widget(Button(text="Remove Jury",size_hint_y=None,height=40))
+		self.add_widget(Button(text="Add Jury",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: parent.add_jury())))
+		self.add_widget(Button(text="Remove Jury",size_hint_y=None,height=ROW_HEIGHT))
 
-
+# jury tables with headers (middle and right side)
 class JuryView(GridLayout):
 	
 	def __init__(self,**kwargs):
 		
-		self.rows = 2
-		self.cols = 1
-		
 		super(JuryView,self).__init__(**kwargs)
+		
+		
+		self.rows = 2
+		self.cols = 1	
 		self.count = 0
 	
 		# Add Header 
@@ -76,7 +86,7 @@ class JuryView(GridLayout):
 		self.count+=1
 		self.jury_table.add()
 
-
+# headers
 class JuryHeader(GridLayout):
 	
 	def __init__(self,**kwargs):
@@ -84,16 +94,18 @@ class JuryHeader(GridLayout):
 		super(JuryHeader,self).__init__(**kwargs)
 
 		self.rows = 1
-		self.cols = 5
+		self.cols = 6
 
 		self.padding = 20	
 	
-		self.add_widget(BorderedLabel(text="Name",size_hint=(0.4,None),height=40))
-		self.add_widget(BorderedLabel(text="(6-7)",size_hint=(0.15,None),height=40))
-		self.add_widget(BorderedLabel(text="(8-9)",size_hint=(0.15,None),height=40))
-		self.add_widget(BorderedLabel(text="(10-12)",size_hint=(0.15,None),height=40))
-		self.add_widget(BorderedLabel(text="Alone",size_hint=(0.15,None),height=40))
+		self.add_widget(BorderedLabel(text="Name",size_hint=(0.3,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedLabel(text="(6-7)",size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedLabel(text="(8-9)",size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedLabel(text="(10-12)",size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedLabel(text="Alone",size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedLabel(text="Active",size_hint=(0.14,None),height=ROW_HEIGHT))
 
+# table
 class JuryTable(GridLayout):
 	
 	def __init__(self,**kwargs):
@@ -109,9 +121,9 @@ class JuryTable(GridLayout):
 
 	def add(self):
 		self.count+=1
-		self.add_widget(JuryRow(self,size_hint_y=None,height=40))
+		self.add_widget(JuryRow(self,size_hint_y=None,height=ROW_HEIGHT))
 	
-
+# rows of the table
 class JuryRow(GridLayout):
 	
 	def __init__(self,parent,**kwargs):
@@ -119,14 +131,16 @@ class JuryRow(GridLayout):
 		super(JuryRow,self).__init__(**kwargs)
 	
 		self.rows = 1
-		self.cols = 5
+		self.cols = 6
 	
-		self.add_widget(BorderedLabel(text="Nickolay Stoyanov",size_hint=(0.4,None),height=40))
-		self.add_widget(BorderedSwitch(active=False,size_hint=(0.15,None),height=40))
-		self.add_widget(BorderedSwitch(active=False,size_hint=(0.15,None),height=40))
-		self.add_widget(BorderedSwitch(active=False,size_hint=(0.15,None),height=40))
-		self.add_widget(BorderedSwitch(active=False,size_hint=(0.15,None),height=40))
-		
+		self.add_widget(BorderedLabel(text="Nickolay Stoyanov",size_hint=(0.3,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedSwitch(active=False,size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedSwitch(active=False,size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedSwitch(active=False,size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedSwitch(active=False,size_hint=(0.14,None),height=ROW_HEIGHT))
+		self.add_widget(BorderedSwitch(active=False,size_hint=(0.14,None),height=ROW_HEIGHT))		
+
+# borderding
 class Bordered():
 	pass
 
@@ -136,3 +150,5 @@ class BorderedLabel(Bordered,Label):
 class BorderedSwitch(Bordered,Switch):
 	pass
 
+class BorderedTextInput(Bordered,TextInput):
+	pass
