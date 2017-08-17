@@ -20,9 +20,12 @@ def setup_tables(cursor):
 	tables['Jury'] = (
 		"""create table Jury
 		   (
-		       f_name varchar(100) not null,
-               l_name varchar(100) not null,
-               pref   varchar(100) not null default '-'
+		       name     varchar(100) not null,
+               small    bool,
+			   medium   bool,
+			   big      bool,
+			   alone    bool,
+			   active   bool
 		   )
         """
 	)

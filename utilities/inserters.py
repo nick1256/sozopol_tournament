@@ -1,5 +1,6 @@
 # used to insert data in the database
 import mysql.connector as mysqlc
+
 # insert teams
 def insert_teams(cursor,team_names,team_category):
 	
@@ -17,6 +18,11 @@ def insert_teams(cursor,team_names,team_category):
 		query = "insert into Scores_{} (team) values (\"{}\");".format(team_category,team_name)
 		cursor.execute(query)
 
+# insert jury member
+def insert_jury_member(cursor,values):
+
+	query = "insert into Jury values (\"{}\",{},{},{},{},{});".format(values[0],values[1],values[2],values[3],values[4],values[5])
+	cursor.execute(query)
 
 # insert database variables
 def insert_variables(cursor,variables):
