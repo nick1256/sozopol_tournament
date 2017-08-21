@@ -64,13 +64,6 @@ class JuryView(GridLayout):
 
 		elif self.middle.count>0:
 			self.middle.remove() 
-	
-	def sort_jury(self):
-		
-		self.save_jury()
-		self.middle.clear()
-		self.right_side.clear()
-		self.load_jury()
 
 	def load_jury(self):
 		
@@ -114,6 +107,12 @@ class JuryView(GridLayout):
 		# commit data
 		cnx.commit()
 	
+		# sort data
+		self.middle.clear()
+		self.right_side.clear()
+		self.load_jury()
+
+
 # buttons (left side)
 class JuryButtons(GridLayout):
 	
@@ -121,7 +120,7 @@ class JuryButtons(GridLayout):
 
 		super(JuryButtons,self).__init__(**kwargs)
 
-		self.rows = 4
+		self.rows = 3
 		self.cols = 1
 
 		self.padding = [10,100]
@@ -130,7 +129,6 @@ class JuryButtons(GridLayout):
 		self.add_widget(Button(text="Add Jury",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: parent.add_jury())))
 		self.add_widget(Button(text="Remove Jury",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: parent.remove_jury())))
 		self.add_widget(Button(text="Save Changes",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: parent.save_jury())))
-		self.add_widget(Button(text="Sort",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: parent.sort_jury())))
 
 # jury tables with headers (middle and right side)
 class JuryContents(GridLayout):

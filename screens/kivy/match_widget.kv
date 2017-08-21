@@ -1,0 +1,66 @@
+<FreeWidget>
+	BorderedButton:
+		id: button
+		background_color : [0,0,0,1]
+		size_hint : None,None
+		height : root.rect_height-1
+		width : root.rect_width
+		pos: root.x+(root.rect_width+root.line_len)//2,root.y
+		on_press: root.clicked()
+
+
+<MatchWidget>:
+	canvas:
+		Color:
+            rgba: 0, 1, 0, .3
+
+		Line:
+			width: 1
+			points: [root.x+root.rect_width,root.y+root.rect_height//2,root.x+root.rect_width+root.line_len,root.y+root.rect_height//2]
+			
+		Line:
+			width: 1
+			points: [root.x+2*root.rect_width+root.line_len,root.y+root.rect_height//2,root.x+2*root.rect_width+2*root.line_len,root.y+root.rect_height]
+			
+		Line:
+			width: 1
+			points: [root.x+2*root.rect_width+root.line_len,root.y+root.rect_height//2,root.x+2*root.rect_width+2*root.line_len,root.y]
+			
+
+		
+	BorderedButton:
+		id: button_left
+		background_color : [0,0,0,1]
+		size_hint : None,None
+		height : root.rect_height-1
+		width : root.rect_width
+		pos: root.x,root.y
+		on_press: root.clicked("button_left")
+
+	BorderedButton:
+		id: button_right
+		background_color : [0,0,0,1]
+		size_hint : None,None
+		height : root.rect_height-1
+		width : root.rect_width
+		pos: root.x+root.rect_width+root.line_len,root.y
+		on_press: root.clicked("button_right")
+
+	BorderedButton:
+		id: button_top
+		background_color : [0,0,0,1]
+		size_hint : None,None
+		height : root.rect_height-1
+		width : root.rect_width
+		pos: root.x+2*root.rect_width+2*root.line_len,root.y+root.rect_height//2+2
+		on_press: root.clicked("button_top")
+
+
+	BorderedButton:
+		id: button_bottom
+		background_color : [0,0,0,1]
+		size_hint : None,None
+		height : root.rect_height-1
+		width : root.rect_width
+		pos: root.x+2*root.rect_width+2*root.line_len,root.y-root.rect_height//2-2
+		on_press: root.clicked("button_bottom")

@@ -63,7 +63,8 @@ class CreateTournamentScreen(Screen):
 			"number_rounds": self.nrounds,
 			"number_teams_Small": self.nteams_small,
 			"number_teams_Medium": self.nteams_medium,
-			"number_teams_Big": self.nteams_big
+			"number_teams_Big": self.nteams_big,
+			"current_round" : 1
 		}
 
 		# insert variables into database

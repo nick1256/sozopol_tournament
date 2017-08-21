@@ -30,6 +30,14 @@ def insert_variables(cursor,variables):
 	for variable in variables:
 		
 		#create and execute query
-		query = "insert into Variables values (\"{}\",\"{}\")".format(variable,variables[variable])
+		query = "insert into Variables values (\"{}\",\"{}\");".format(variable,variables[variable])
 		cursor.execute(query)
 
+# insert matches
+def insert_matches(cursor,category,matches):
+
+	for match in matches:
+		
+		# create and execute query
+		query = "insert into Matches_{} (team_one,team_two) values (\"{}\",\"{}\");".format(category,match[0],match[1])
+		cursor.execute(query)

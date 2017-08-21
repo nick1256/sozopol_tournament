@@ -74,7 +74,16 @@ def setup_tables(cursor):
 			""".format(category)
 		)
 
-
+		tables['Matches_{}'.format(category)] = (
+			"""create table Matches_{}
+			   (
+		           team_one  varchar(100) not null,
+				   team_two  varchar(100) not null,
+				   jury_one  varchar(100) default null,
+				   jury_two  varchar(100) default null
+		       )
+			""".format(category)
+		)
 
 	### create all tables ###	
 	for table in tables:
