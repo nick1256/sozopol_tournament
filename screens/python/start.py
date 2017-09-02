@@ -14,7 +14,7 @@ class StartScreen(Screen):
 		
 		super(StartScreen,self).__init__()
 		self.name = name
-		self.window_size = (300,300)	
+		self.window_size = (250,200)	
 		self.screen_manager = screen_manager
 
 	def go_to_create_tournament(self):

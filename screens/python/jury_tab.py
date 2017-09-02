@@ -21,16 +21,16 @@ ROW_HEIGHT = 40
 # tab name with contents
 class JuryTab(TabbedPanelItem):
 
-	def __init__(self,screen,**kwargs):
+	def __init__(self,database_name,**kwargs):
 		
 		super(JuryTab,self).__init__(**kwargs)
-		self.add_widget(JuryView(screen))
+		self.add_widget(JuryView(database_name))
 
 
 # contents
 class JuryView(GridLayout):
 		
-	def __init__(self,screen,**kwargs):
+	def __init__(self,database_name,**kwargs):
 		
 		super(JuryView,self).__init__(**kwargs)
 
@@ -48,7 +48,7 @@ class JuryView(GridLayout):
 		self.add_widget(self.right_side)
 
 		# get database name and load jury
-		self.screen = screen
+		self.database_name = database_name
 		self.load_jury()
 
 	def add_jury(self):
@@ -69,7 +69,7 @@ class JuryView(GridLayout):
 		
 		# connect to database
 		cnx = create_connection()
-		cnx.database = self.screen.screen_manager.database_name
+		cnx.database = self.database_name
 		cursor = cnx.cursor()
 
 		# get information				
@@ -91,7 +91,7 @@ class JuryView(GridLayout):
 
 		# connect to database
 		cnx = create_connection()
-		cnx.database = self.screen.screen_manager.database_name
+		cnx.database = self.database_name
 		cursor = cnx.cursor()
 
 		# clear Jury Table
@@ -99,9 +99,11 @@ class JuryView(GridLayout):
 
 		# add members with renewed information
 		for jury_member in values1 :
+			if jury_member[0] == "": continue
 			insert_jury_member(cursor,jury_member)
 
 		for jury_member in values2 :
+			if jury_member[0] == "": continue
 			insert_jury_member(cursor,jury_member)
 		
 		# commit data

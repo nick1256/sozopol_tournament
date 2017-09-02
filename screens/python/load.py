@@ -1,5 +1,8 @@
-# kivy imporst
+# kivy imports
 from kivy.uix.screenmanager import Screen
+from kivy.uix.button import Button
+
+# file imports
 from screens.python.successful import SuccessfulLoadScreen
 
 # other imports
@@ -12,8 +15,9 @@ class LoadScreen(Screen):
 		self.name = name
 		self.screen_manager = screen_manager
 		self.window_size = (300,300)
-	
+
 		super(LoadScreen,self).__init__()
+
 
 	def load_tournament(self,selection):
 		
