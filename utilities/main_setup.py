@@ -1,23 +1,25 @@
-from utilities.create_database import *
-from utilities.tables_schema import *
-from utilities.inserters import *
-from utilities.create_connection import *
+"""setup database and tables in it"""
 
-def setup_database(db_name,*args):
-	
+from utilities.create_database import create_database
+from utilities.tables_schema import setup_tables
+from utilities.create_connection import create_connection
+
+def setup_database(db_name):
+
+	"""setup database and tables in it"""
+
 	# create conection
 	cnx = create_connection()
 
-	# get cursor 
+	# get cursor
 	cursor = cnx.cursor()
 
 	# create database and navigate to it
-	create_database(cursor,db_name)
+	create_database(cursor, db_name)
 	cnx.database = db_name
 
-	
 	# create tables
-	tables = setup_tables(cursor)
+	setup_tables(cursor)
 
 	# close connection
 	cnx.close()

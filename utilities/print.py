@@ -1,24 +1,21 @@
-# file imports
-from utilities.create_connection import create_connection
+"""create tables for matches """
 
-# mysql imports
-import mysql.connector as mysqlc
-from mysql.connector import errorcode
+def print_matches(cursor, category, day):
 
-def print_matches(cursor,category,day):
-	
+	"""create tables for matches """
+
 	# get matches
-	query = "select team_one,team_two,jury_one,jury_two from Matches_{} where day={};".format(category,day)
+	query = """select team_one, team_two, jury_one, jury_two from Matches_{} where day={}
+			;""".format(category, day)
+
 	cursor.execute(query)
 	matches = cursor.fetchall()
 
 	# open file
-	f = open("{}.xlsx".format(category),'w')
-	f.write("Team One,Team Two,Jury One,Jury Two,Room \n")
+	file_name = open("{}.xlsx".format(category), 'w')
+	file_name.write("Team One, Team Two, Jury One, Jury Two, Room \n")
 
 	# write matches
 	for match in matches:
-		match_name = str(match[0]+',' + str(match[1]) + ',' + str(match[2])+','+str(match[3]))
-		f.write(match_name+'\n')
-
-
+		match_name = str(match[0]+', ' + str(match[1]) + ', ' + str(match[2])+', '+str(match[3]))
+		file_name.write(match_name+'\n')

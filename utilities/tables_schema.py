@@ -1,21 +1,24 @@
-# setup tables schema
+""" setup tables schema """
+# pylint: disable=C0330
 def setup_tables(cursor):
-	
+
+	""" setup tables schema """
+
 	# all tables and triggers
 	tables = {}
 
 	### configure schemas ###
-	
+
 	# variables table
 	tables["Variables"] = (
-		"""create table Variables
+			"""create table Variables
 		   (
                name  varchar(100) not null unique,
 			   value varchar(100) not null
 		   );"""
 	)
-	
-	
+
+
 	# jury table
 	tables['Jury'] = (
 		"""create table Jury
@@ -31,7 +34,7 @@ def setup_tables(cursor):
 	)
 
 	# loop through categories
-	for category in ["Small","Medium","Big"]:
+	for category in ["Small", "Medium", "Big"]:
 
 		# teams tables
 		tables["Teams_{}".format(category)] = (
@@ -44,7 +47,7 @@ def setup_tables(cursor):
 				   points_diff  smallint     not null default 0
 			   )""".format(category)
 		)
-	
+
 
 		# problems table
 		tables['Problems_{}'.format(category)] = (
@@ -89,8 +92,8 @@ def setup_tables(cursor):
 		)
 
 
-	### create all tables ###	
+	### create all tables ###
 	for table in tables:
 		cursor.execute(tables[table])
-	
+
 	return tables

@@ -1,32 +1,39 @@
+""" Create Tournament """
+# general imports
+import os
+from shutil import rmtree
+
 # kivy imports
 from kivy.uix.screenmanager import Screen
 
 # file imports
+# pylint: disable=E0401
 from utilities.main_setup import setup_database
-from utilities.inserters import insert_teams,insert_variables
+from utilities.inserters import insert_teams, insert_variables
 from utilities.create_connection import create_connection
-from screens.python.create_continued import *
+from screens.python.create_continued import CreateContinuedScreenSmall, CreateContinuedScreenMedium, CreateContinuedScreenBig
 
-# other imports
-import os
-import mysql.connector as mysqlc
-from datetime import datetime
-from shutil import rmtree
-
-########## Create Tournament Screen ########## 
 
 class CreateTournamentScreen(Screen):
-	
-	def __init__(self,name,screen_manager):
-		
-		super(CreateTournamentScreen,self).__init__()
+
+	""" Create Tournament Screen """
+
+	def __init__(self, name, screen_manager):
+
+		super(CreateTournamentScreen, self).__init__()
 		self.name = name
-		self.window_size = (500,500)
+		self.window_size = (500, 500)
 		self.screen_manager = screen_manager
 
-	def get_info(self,nteams1,nteams2,nteams3,nrounds,tname):
+		self.nteams_small = None
+		self.nteams_medium = None
+		self.nteams_big = None
+		self.nrounds = None
+		self.tname = None
 
-		# TODO error check values
+
+	def get_info(self, nteams1, nteams2, nteams3, nrounds, tname):
+		""" get info """
 
 		# convert to appropriate types and add to class
 
@@ -36,15 +43,17 @@ class CreateTournamentScreen(Screen):
 		self.nrounds = int(nrounds)
 		self.tname = tname
 
-		# create thre three continue screens, one for each group
-		self.screen_manager.add(CreateContinuedScreenSmall("create_continued_small",self.screen_manager,self.nteams_small))
-		self.screen_manager.add(CreateContinuedScreenMedium("create_continued_medium",self.screen_manager,self.nteams_medium))
-		self.screen_manager.add(CreateContinuedScreenBig("create_continued_big",self.screen_manager,self.nteams_big))
+		# create thre three continue screens,  one for each group
+		self.screen_manager.add(CreateContinuedScreenSmall("create_continued_small", self.screen_manager, self.nteams_small))
+		self.screen_manager.add(CreateContinuedScreenMedium("create_continued_medium", self.screen_manager, self.nteams_medium))
+		self.screen_manager.add(CreateContinuedScreenBig("create_continued_big", self.screen_manager, self.nteams_big))
 
 		# go to the one for group 6-7
 		self.screen_manager.set("create_continued_small")
 
 	def create_database(self):
+
+		""" create database """
 
 		# init database and tell the screen manager to refer to it from now
 		setup_database(self.tname)
@@ -58,6 +67,7 @@ class CreateTournamentScreen(Screen):
 		cursor = cnx.cursor()
 
 		# create variables dict and insert it into database
+		# pylint: disable=C0330
 		variables = {
 			"tournament_name" : self.tname,
 			"number_rounds": self.nrounds,
@@ -70,35 +80,32 @@ class CreateTournamentScreen(Screen):
 		}
 
 		# insert variables into database
-		insert_variables(cursor,variables)
-	
+		insert_variables(cursor, variables)
+
 		# get team names
 		teams1 = self.screen_manager.get_my_screen("create_continued_small").team_names
 		teams2 = self.screen_manager.get_my_screen("create_continued_medium").team_names
 		teams3 = self.screen_manager.get_my_screen("create_continued_big").team_names
 
 		# insert teams
-		insert_teams(cursor,teams1,"Small")
-		insert_teams(cursor,teams2,"Medium")
-		insert_teams(cursor,teams3,"Big")
-		
+		insert_teams(cursor, teams1, "Small")
+		insert_teams(cursor, teams2, "Medium")
+		insert_teams(cursor, teams3, "Big")
+
 		# commit and close connection
 		cnx.commit()
 		cnx.close()
-	
+
 		### make dir for this tournament
-		
+
 		# directory name
 		directory_path = os.getcwd()+"/tournaments/"+self.tname
-		
+
 		# delete if already exists
-		if os.path.isdir(directory_path): rmtree(directory_path)
-		
+		if os.path.isdir(directory_path):
+			rmtree(directory_path)
+
 		# create directory and add init file in it
 		os.mkdir(directory_path)
-		f = open(directory_path+"/__init__.py",'w')
-		f.write("# Do not delete")
-
-
-
-
+		f_name = open(directory_path+"/__init__.py", 'w')
+		f_name.write("# Do not delete")
