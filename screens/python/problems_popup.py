@@ -97,7 +97,6 @@ class ProblemsPopup(GridLayout):
 			self.widgets[problem_num-1].set_loaded(problem_category)
 	
 
-
 class ProblemsRow(GridLayout):
 	
 	def __init__(self,number,**kwargs):

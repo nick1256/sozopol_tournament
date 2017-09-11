@@ -704,6 +704,9 @@ class MatchResults(GridLayout):
 					num_scores=num_scores+{},total_scores=total_scores+{} where name=\"{}\" and team=\"{}\"""".format(self.category,alg,comb,geom,num,tot,person,t2n)
 			cursor.execute(query)
 
+		#f = open(,'w')
+
+
 		# commit and close
 		cnx.commit()
 		cnx.close()

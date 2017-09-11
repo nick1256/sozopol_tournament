@@ -1,12 +1,10 @@
 # kivy imports
-from kivy.uix.accordion import AccordionItem,Accordion
 from kivy.uix.tabbedpanel import TabbedPanelItem
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
-from kivy.properties import StringProperty
 
 # mysql imports
 import mysql.connector as mysqlc
@@ -15,11 +13,12 @@ from mysql.connector import errorcode
 # file imports
 from utilities.create_connection import create_connection
 from utilities.generate_round import generate_round
+from utilities.print import print_matches
 from screens.python.problems_popup import ProblemsPopup
 from screens.python.protocols_popup import ProtocolsPopup
 
 # default row height
-ROW_HEIGHT = 40
+ROW_HEIGHT = 35
 
 class CategoryTab(TabbedPanelItem):
 
@@ -183,7 +182,18 @@ class CategoryContents(GridLayout):
 		cnx.close()
 
 		# reload
+		self.unlock()
 		self.load()
+
+	# print matches
+	def print_matches(self):
+
+		# create connection		
+		cnx = create_connection()
+		cnx.database = self.database_name
+		cursor = cnx.cursor()
+
+		print_matches(cursor,self.category,self.round)
 
 
 class CategoryTable(GridLayout):
@@ -298,7 +308,7 @@ class MatchTable(GridLayout):
 		self.widgets = []
 
 		for i in range(nteams//2):
-			self.widgets.append((MatchWidget(i,size_hint_y=None,height=85)))
+			self.widgets.append((MatchWidget(i,size_hint_y=None,height=75)))
 
 		if nteams%2:
 			self.widgets.append((FreeWidget(size_hint_y=None,height=85)))
@@ -346,7 +356,7 @@ class MatchTable(GridLayout):
 
 		# assining names
 		num=0
-	
+
 		for match in matches:
 
 			team_one = match[0]
@@ -482,9 +492,7 @@ class CategoryButtons(GridLayout):
 		self.spacing = 10
 
 		self.round_label = BorderedLabel(size_hint_y=None,height=ROW_HEIGHT)
-		self.add_widget(self.round_label)
-
-		self.add_widget(Button(text="Generate Round",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: self.generate_round())))	
+		self.add_widget(self.round_label)	
 	
 		self.set_problems_button = Button(text="Set Problems",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: self.set_problems()))
 		self.add_widget(self.set_problems_button)
@@ -495,9 +503,17 @@ class CategoryButtons(GridLayout):
 		self.finish_day_button = Button(text="Finish Day",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: self.finish_day()))
 		self.add_widget(self.finish_day_button)
 
+		self.print_button = Button(text="Print Matches",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: self.print_matches()))
+		self.add_widget(self.print_button)
+
 		# add more spacing
-		for i in range(11):
+		for i in range(10):
 			self.add_widget(Label(text="",size_hint_y=None,height=ROW_HEIGHT))
+
+		
+		# buttons manipulating the round generation
+		self.generate_button = Button(text="Generate Round",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: self.generate_round()))
+		self.add_widget(self.generate_button)
 
 		self.locked_button = Button(text="Lock Round",size_hint_y=None,height=ROW_HEIGHT,on_press=(lambda x: self.lock()))
 		self.add_widget(self.locked_button)	
@@ -509,7 +525,10 @@ class CategoryButtons(GridLayout):
 	# butons functions. call respective functions of parent
 	def generate_round(self):
 		self.parent.generate_round()
-		
+
+	def print_matches(self):
+		self.parent.print_matches()
+
 	def lock(self):
 		self.parent.lock()
 
@@ -530,10 +549,14 @@ class CategoryButtons(GridLayout):
 		
 		if self.parent.locked:
 			self.unlocked_button.disabled=False
+			self.print_button.disabled = False
 			self.locked_button.disabled=True
+			self.generate_button.disabled=True
 		else:
 			self.unlocked_button.disabled=True
+			self.print_button.disabled=True			
 			self.locked_button.disabled=False
+			self.generate_button.disabled=False
 
 		self.round_label.text = "Current Round: {}".format(self.parent.round)
 		self.set_problems_button.background_color  = self.parent.set_problems_color
@@ -545,10 +568,8 @@ class CategoryButtons(GridLayout):
 class Bordered():
 	pass
 
-
 class BorderedLabel(Bordered,Label):
 	pass
-
 
 class BorderedButton(Bordered,Button):
 	pass

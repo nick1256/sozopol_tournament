@@ -14,7 +14,7 @@ from utilities.create_connection import create_connection
 from utilities.inserters import insert_people
 
 # default row_height
-ROW_HEIGHT = 40
+ROW_HEIGHT = 30
 
 # tab name with contents
 class TeamsTab(TabbedPanelItem):
@@ -41,10 +41,10 @@ class TeamsView(GridLayout):
 		self.left_side = TeamsButtons(size_hint_x = 0.1)
 
 		# middle side with names of teams
-		self.middle = TeamsSelection(database_name,size_hint_x = 0.1)
+		self.middle = TeamsSelection(database_name,size_hint_x = 0.2)
 
 		# right side with members of the team
-		self.right_side = PeopleView(size_hint_x = 0.8)
+		self.right_side = PeopleView(size_hint_x = 0.7)
 
 		#add widgets
 		self.add_widget(self.left_side)
@@ -327,8 +327,8 @@ class PeopleButtons(GridLayout):
 	
 		self.cols = 2
 		self.spacing = 50
-		self.add_widget(Button(text="Add Person",size_hint=(None,None),width=200,height=ROW_HEIGHT,on_press = (lambda x: self.add_person()))) 
-		self.add_widget(Button(text="Save Changes",size_hint=(None,None),width=200,height=ROW_HEIGHT,on_press = (lambda x: self.save())))
+		self.add_widget(Button(text="Add Person",size_hint=(None,None),height=ROW_HEIGHT,on_press = (lambda x: self.add_person()))) 
+		self.add_widget(Button(text="Save Changes",size_hint=(None,None),height=ROW_HEIGHT,on_press = (lambda x: self.save())))
 
 	def add_person(self):
 		self.parent.add_person()

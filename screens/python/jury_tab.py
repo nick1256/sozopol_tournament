@@ -15,7 +15,7 @@ from utilities.create_connection import create_connection
 from utilities.inserters import insert_jury_member
 
 # default row_height
-ROW_HEIGHT = 40
+ROW_HEIGHT = 35
 
 
 # tab name with contents
@@ -53,7 +53,7 @@ class JuryView(GridLayout):
 
 	def add_jury(self):
 
-		if self.middle.count < 20:		
+		if self.middle.count < 25:		
 			self.middle.add()
 		else:
 			self.right_side.add()
@@ -80,7 +80,7 @@ class JuryView(GridLayout):
 			name = jury_member[0]
 			states = jury_member[1:]
 
-			if self.middle.count < 20:
+			if self.middle.count < 25:
 				self.middle.load({'name':name,'states':states})		
 			else:
 				 self.right_side.load({'name':name,'states':states})
@@ -145,7 +145,6 @@ class JuryContents(GridLayout):
 		self.count = 0
 	
 		# Add Header 
-
 		self.add_widget(JuryHeader(size_hint_y=0.1))
 		self.jury_table = JuryTable(size_hint_y=0.9)
 		self.add_widget(self.jury_table)
@@ -196,7 +195,7 @@ class JuryTable(GridLayout):
 		
 		super(JuryTable,self).__init__(**kwargs)
 
-		self.rows = 20
+		self.rows = 25
 		self.cols = 1
 		self.padding = 20	
 
@@ -296,7 +295,6 @@ class JuryRow(GridLayout):
 		# draw
 		for widget in self.widgets:
 			self.add_widget(widget)
-
 
 # borderding
 class Bordered():

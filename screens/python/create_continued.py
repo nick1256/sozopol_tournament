@@ -138,7 +138,7 @@ class TableWidget(GridLayout):
 		for row in range(self.rows):
 		
 			label = Label(text = "Team {} Name:".format(row+1),size_hint_x=0.3)
-			text_input = TextInput(size_hint_x = 0.7,size_hint_y=None,height='32dp',font_size='11sp',write_tab=False,text="Team {}".format(row+1))
+			text_input = TextInput(size_hint_x = 0.7,size_hint_y=None,height='32dp',font_size='11sp',write_tab=False)
 	
 			# record text_input
 			text_inputs.append(text_input)			
